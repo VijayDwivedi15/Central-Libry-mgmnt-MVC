@@ -1,0 +1,167 @@
+﻿@model LibraryManagement.Models.BookDetail
+@using LibraryManagement.Models;
+@using LibraryManagement.DAL;
+@{
+    ViewBag.Title = "AddBook";
+    Layout = "~/Areas/Library/Views/Shared/_Layout.cshtml";
+    BookDetail bookdetails = ViewData["bookdetails"] as BookDetail;
+}
+<section class="forms">
+    @using (Html.BeginForm("AddBooks", "Library", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddBooks", role = "form" }))
+    {
+        <div class="container-fluid">
+            <!-- Page Header-->
+          <br />
+
+            <div class="col-md-12">
+                @if (bookdetails != null)
+                {
+                    {
+                        <input type="text" value="@bookdetails.BookID" id="BookID" name="BookID" style="display:none" class="" />
+
+                    }
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h4>Edit Book</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Book name</label>
+                                        <input name="bookname" id="bookname" type="text" class="form-control" placeholder="Book name" value="@bookdetails.BookName">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Author Name</label>
+                                        <input name="authorname" id="authorname" type="text" class="form-control" placeholder="Author Name" value="@bookdetails.AuthorName">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Edition</label>
+                                        <input name="edition" id="edition" type="text" class="form-control" placeholder="Edition" value="@bookdetails.Edition">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Price</label>
+                                        <input name="Price" id="Price" type="text" class="form-control" placeholder="Price" value="@bookdetails.Price">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Total Copies</label>
+                                        <input name="totalcopies" id="totalcopies" type="text" class="form-control" placeholder="Total Copies" value="@bookdetails.TotalCopies">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>ISBN No</label>
+                                        <input name="isbn" id="isbn" type="text" class="form-control" placeholder="ISBN No" value="@bookdetails.ISBN">
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Class</label>
+                                    @Html.DropDownList("ClassID", null, "--- Select Class---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "ClassID", placeholder = "Class", required = ""})
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Subject</label>
+                                    @Html.DropDownList("SubjectID", null, "--- Select Subject---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "SubjectID", placeholder = "Subject", required = "", })
+                                </div>
+                                <div class="form-group">
+                                    <center><input type="submit" value="Submit" class="btn btn-primary"></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+
+
+
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h4 style="border-bottom-color:lightgreen">Add Book</h4>
+                           
+                        </div>
+                       
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Book name</label>
+                                        <input name="bookname" id="bookname" type="text" class="form-control" placeholder="Book name" required>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Author Name</label>
+                                        <input name="authorname" id="authorname" type="text" class="form-control" placeholder="Author Name" required>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Edition</label>
+                                        <input name="edition" id="edition" type="text" class="form-control" placeholder="Edition" required>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Price</label>
+                                        <input name="Price" id="Price" type="number" class="form-control" placeholder="Price" required>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Total Copies</label>
+                                        <input name="totalcopies" id="totalcopies" type="text" class="form-control" placeholder="Total Copies"required>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>ISBN No</label>
+                                        <input name="isbn" id="isbn" type="number" class="form-control" placeholder="ISBN No"required>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Class</label>
+                                    @Html.DropDownList("ClassID", null, "--- Select Class---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "ClassID", placeholder = "Class", required = "", })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Subject</label>
+                                    @Html.DropDownList("SubjectID", null, "--- Select Subject---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "SubjectID", placeholder = "Subject", required = "", })
+                                </div>
+                                <div class="col-lg-12">
+                                    <center><input type="submit" style="align-content:center;background-color:green;color:white;align-content:center" value="Submit" class="btn btn-primary"></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+    }
+</section>

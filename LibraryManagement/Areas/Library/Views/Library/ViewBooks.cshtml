@@ -1,0 +1,144 @@
+﻿@model LibraryManagement.Models.BookDetail
+@using LibraryManagement.Models;
+
+@using LibraryManagement.DAL;
+@{
+    ViewBag.Title = "ViewBooks";
+    Layout = "~/Areas/Library/Views/Shared/_Layout.cshtml";
+    List<BookDetailView> viewbooks = ViewData["viewbookdetailslist"] as List<BookDetailView>;
+}
+<section class="forms">
+        @using (Html.BeginForm("AddBooks", "Library", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddBooks", role = "form" }))
+    {
+        <div class="container-fluid">
+
+            <br />
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="h4" style="font-size:medium;color:blueviolet">Filter By Class</label>
+                        @Html.DropDownList("ClassID", null, "--- Select Class---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "ClassID", placeholder = "Class", required = "", onchange = "SelectClassName()" })
+                    </div>
+                    </div>
+                </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center">
+                                <h4>View Books</h4>
+                            </div>
+                            <div class="card-body">
+                                @if (viewbooks != null)
+                        {
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead class="table-bordered">
+                                                <tr>
+                                                    <th style="font-weight: bold; color: #803A96; ">
+                                                        Book Name
+                                                    </th>
+                                                    <th style="font-weight: bold; width:150px; color: #803A96; ">
+                                                        Author Name
+                                                    </th>
+                                                    <th style="font-weight: bold; color: #803A96; ">
+                                                        Edition
+                                                    </th>
+                                                    <th style="font-weight: bold; color: #803A96; ">
+                                                        Price
+                                                    </th>
+                                                    <th style="font-weight: bold; color: #803A96; ">
+                                                        ISBN NO
+                                                    </th>
+                                                    <th style="font-weight: bold; width: 150px; color: #803A96; ">
+                                                        Total Copies
+                                                    </th>
+                                                    <th style="font-weight: bold; width: 150px; color: #803A96; ">
+                                                        Class Name
+                                                    </th>
+                                                    <th style="font-weight: bold; width: 150px; color: #803A96; ">
+                                                        Subject Name
+                                                    </th>
+                                                    <th style="font-weight: bold; color: #803A96; ">
+                                                        Created On
+                                                    </th>
+                                                    <th style="font-weight: bold; width: 150px; color: #803A96; ">
+                                                        Action
+                                                    </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in viewbooks)
+                                        {
+                                                    <tr>
+                                                        <td>
+                                                            @item.BookName
+                                                        </td>
+                                                        <td>
+                                                            @item.AuthorName
+                                                        </td>
+                                                        <td>
+
+                                                            @item.Edition
+                                                        </td>
+                                                        <td>
+                                                            @item.Price
+
+                                                        </td>
+                                                        <td>
+                                                            @item.ISBN
+
+                                                        </td>
+                                                        <td>
+                                                            @item.TotalCopies
+
+                                                        </td>
+                                                        <td>
+                                                            @item.ClassName
+
+                                                        </td>
+                                                        <td>
+                                                            @item.SubjectName
+
+                                                        </td>
+                                                        <td>
+                                                            @item.CreatedOn
+
+                                                        </td>
+                                                        <td>
+                                                            <a style="color:blue;font-size:25px" href="@Url.Action("AddBooks", "Library", new { BookID = item.BookID })" onclick="edit()">
+                                                                <i class="icon-check"></i>
+                                                            </a>
+                                                            <a style="color:blue; font-size:25px" href="#" onclick="check()">
+                                                                <i class="icon-screen">
+                                                                </i>
+                                                            </a>
+
+                                                        </td>
+
+                                                    </tr>
+                                        }
+
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                        }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                }
+</section>
+@Html.Hidden("RedirectToHome", Url.Action("ViewBooks", "Library", new { area = "ClassID" }))
+<script>
+    function SelectClassName() {
+        var classID = $('#ClassID').val();
+        var url = $("#RedirectToHome").val() + "?ClassID=" + classID;
+        location.href = url;
+    }
+</script>

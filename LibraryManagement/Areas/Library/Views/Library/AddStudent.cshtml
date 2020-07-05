@@ -1,0 +1,144 @@
+﻿@using LibraryManagement.Models
+@model LibraryManagement.Models.StudentDetail
+@{
+    ViewBag.Title = "AddStudent";
+    Layout = "~/Areas/Library/Views/Shared/_Layout.cshtml";
+    List<StudentDetail> student = ViewData["student"] as List<StudentDetail>;
+}
+<section class="forms">
+    @using (Html.BeginForm("AddStudent", "Library", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddStudent", role = "form" }))
+    {
+        <div class="container-fluid">
+            <!-- Page Header-->
+            <header>
+                <h1 class="h3 display">Student SECTION</h1>
+            </header>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h4>Add Student</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Student name</label>
+
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="Stuid" name="stuid" value="@Model.StudentID" style="display:none" />
+                                        <input type="text" name="Name" id="name" class="form-control" value="@Model.Name" placeholder="Student Name">
+
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="Stuid" name="stuid" value="0" style="display:none" />
+                                        <input type="text" name="Name" id="name" class="form-control" placeholder="Student Name">
+
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Father's Name</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" name="Fname" id="fname" class="form-control" value="@Model.FatherName" placeholder="Father's Name">
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="Fname" id="fname" class="form-control" placeholder="Father's Name">
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Student Address</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" name="Address" id="address" class="form-control" value="@Model.Address" placeholder="Student Address">
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="Address" id="address" class="form-control" placeholder="Student Address">
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Student Contact</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" name="Contact" id="contact" class="form-control" value="@Model.Contact" placeholder="Student Contact">
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="Contact" id="contact" class="form-control" placeholder="Student Contact">
+                                    }
+                                </div>
+
+                            </div>
+                            @*<div class="form-group col-md-6">
+                                <label>School</label>
+                                @Html.DropDownList("SchoolId", null, "--- Select School---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "SchoolId", placeholder = "School Name", required = "", onchange = "SelectPhone()" })
+                            </div>*@
+                            <div class="form-group col-md-6">
+                                <label>Class</label>
+                                @Html.DropDownList("ClassID", null, "--- Select Class---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "ClassID", placeholder = "Class Name", required = "" })
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Date Of Birth</label>
+                                @if (Model != null)
+                                {
+                                    <input type="date" id="DOB" name="DOB" class="form-control" value="@Model.DOB" placeholder="Student Contact" />
+                                }
+                                else
+                                {
+                                    <input type="date" id="DOB" name="DOB" class="form-control" placeholder="Student Contact" />
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <center><input type="submit" id="btnsubmit" value="Submit" class="btn btn-primary" onclick="AddStudent()"></center>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br />
+                    @if (student!=null)
+                    { 
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Student Address</th>
+                            <th>Student Contact</th>
+                            <th>Action</th>
+                        </tr>
+                        @foreach (var item in student)
+                        {
+                            <tr>
+                                <td>@item.StudentID</td>
+                                <td>@item.Name</td>
+                                <td>@item.Address</td>
+                                <td>@item.Contact</td>
+                                <td>
+                                    <a href="@Url.Action("AddStudent", "Library", new { area="Library", StudentID=item.StudentID})">Edit</a>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    @Html.Hidden("Redirecttohome", @Url.Action("AddStudent", "Library", new { area="Library"}))
+</section>
+ 
+

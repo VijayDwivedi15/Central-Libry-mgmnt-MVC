@@ -1,0 +1,324 @@
+﻿@using LibraryManagement.Models
+@model LibraryManagement.Models.IssueBook
+@{
+    ViewBag.Title = "Student Issue Books";
+    Layout = "~/Areas/Library/Views/Shared/_Layout.cshtml";
+    List<IssueBookDetailView> issuebooklist = ViewData["studentissuebookdetails"] as List<IssueBookDetailView>;
+
+}
+<link href="~/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<div class="content-wrapper">
+
+    <div class="col-12 grid-margin stretch-card">
+
+        <br /><div class="card">
+            <div class="card-header d-flex align-items-center">
+                <div class="col-md-12" style="align-content:center">
+                    <center> <h1 style="color:darkgreen">@issuebooklist.Select(c => c.Name).FirstOrDefault()</h1></center>
+                </div>
+            </div>
+            <div class="row col-md-12" style="left:50px">
+
+                <div class="col col-md-3">
+
+                    <label>Class</label>
+                    <h5>@issuebooklist.Select(c => c.ClassName).FirstOrDefault()</h5>
+                </div>
+                <div class="col col-md-3">
+                    <label>Student ID</label>
+                    <h5>@issuebooklist.Select(c => c.StudentID).FirstOrDefault()</h5>
+                </div>
+
+                <div class="col col-md-3">
+                    <label>Address</label>
+                    <h5>@issuebooklist.Select(c => c.Address).FirstOrDefault()</h5>
+                </div>
+                <div class="col col-md-3">
+                    <label>Student No</label>
+                    <h5>@issuebooklist.Select(c => c.StudentNo).FirstOrDefault()</h5>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="card-body">
+                @if (issuebooklist != null)
+                {
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-bordered">
+                                <tr>
+
+                                    <th style="font-weight: bold; color: #803A96; ">
+                                        Book Name
+                                    </th>
+                                    <th style="font-weight: bold; color: #803A96; ">
+                                        Issue Date
+                                    </th>
+                                    <th style="font-weight: bold; color: #803A96; ">
+                                        Return Date
+                                    </th>
+                                    <th style="font-weight: bold; color: #803A96; ">
+                                        Total Copies
+                                    </th>
+                                    <th style="font-weight: bold; color: #803A96; ">
+                                        Issue By
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in issuebooklist)
+                                {
+
+                                    <tr>
+
+
+                                        <td>
+                                            @item.BookName
+
+                                        </td>
+                                        <td>
+                                            @item.IssueDate
+
+                                        </td>
+                                        <td>@item.ReturnDate</td>
+                                        <td>@item.TotalCopies</td>
+                                        <td>@item.Issuedby</td>
+
+
+                                    </tr>
+                                }
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<script src="~/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<link href="~/css/Confirm.css" rel="stylesheet" />
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        var iCnt = 0;
+        $('#FaqsTable').on('click', '#addCF', function () {
+            if (iCnt <= 100) {
+
+                iCnt = iCnt + 1;
+
+                $.ajax({
+                    type: "post",
+                    url: "/Library/Library/GetBookNameDetail",
+                    data: {
+                        ClassID: $('#ClassID').val()
+                    },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        var member = "<select class='form-control' id='BookID' name='BookID[]'>";
+                        member = member + '<option value="">--- Select Book Name---</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            member = member + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        member = member + '</select>';
+                        $('#' + iCnt).html(member);
+                    }
+                });
+                $("#FaqsTable").append('<tr>' +
+                      '<td><div id=' + iCnt + '></div></td>' +
+
+        '<td><a href="javascript:void(0);" id="remCF"><i class="fa fa-close" style="font-size:xx-large"></i></a></td> '
+        + '</tr>');
+            }
+        });
+
+        $("#FaqsTable").on('click', '#remCF', function () {
+            var flag = $(this).closest('tr').find(".Flag").val();
+            if (flag == "I") {
+                $(this).closest('tr').remove();
+            }
+            else (flag == "U")
+            {
+                $(this).closest("tr").hide();
+                $(this).closest('tr').find(".Flag").val("D");
+            }
+        });
+
+        var tech = $("#SaveStatus").val();
+
+    });
+
+    //$('#StateID').change(function () {
+
+    $("#task").validate({
+        submitHandler: function (form) {
+        }
+    });
+</script>
+
+
+<script>
+
+    function SelectClass() {
+
+
+        $.ajax({
+            type: "post",
+            url: "/Library/Library/GetBookNameDetail",
+            data: {
+                ClassID: $('#ClassID').val()
+            },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var member = "<select class='form-control' id='BookID' name='BookID[]'>";
+                member = member + '<option value="">--- Select Book Name---</option>';
+                for (var i = 0; i < data.length; i++) {
+                    member = member + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                member = member + '</select>';
+                $('#BookID').html(member);
+            }
+        });
+
+
+    }
+
+    function SelectStudent() {
+
+
+        $.ajax({
+            type: "post",
+            url: "/Library/Library/GetStudentDetailView",
+            data: {
+                StudentID: $('#studentid').val()
+            },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#namecol').show()
+                document.getElementById('sno').value = data.StudentNo.toString()
+                document.getElementById('name').value = data.Name.toString()
+                document.getElementById('fname').value = data.FatherName.toString()
+                document.getElementById('dob').value = data.DOB.toString()
+            }
+
+
+
+        });
+
+    }
+
+    function AddIssueBooks() {
+        var bid = new Array;
+
+        $.each($("select[name='BookID[]']"), function () {
+            if ($(this).val() != "") {
+                bid.push($(this).val());
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/Library/Library/IssueBooks",
+            traditional: true,
+            data: {
+
+                BooksID: bid,
+                StudentID: $('#studentid').val(),
+                ClassID: $('#ClassID').val(),
+                IssueDate: $('#issuedate').val(),
+                ReturnDate: $('#returndate').val()
+
+
+            },
+            datatype: "json",
+
+            success: function (data) {
+
+                $('.form-process').fadeOut();
+                if (data == "Succeeded") {
+                    $.confirm({
+                        'title': 'Cheers',
+                        'message': 'Your Data has been saved <b> SUCCESSFULLY.</b>',
+                        'buttons': {
+                            'Ok': {
+                                'class': 'blue',
+                                'action': function () {
+                                    var url = $("#RedirectToTask").val();
+                                    location.href = url;
+                                }
+                            }
+                        }
+                    });
+                    $.alert({
+                        title: 'Cheers',
+                        content: 'Your Data has been saved <b> SUCCESSFULLY.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-thumbs-up icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                if (data == "Unsucceeded") {
+                    $.alert({
+                        title: 'Sorry',
+                        content: 'Something went <b>wrong.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-thumbs-down icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                if (data == "Exists") {
+                    $.alert({
+                        title: 'Sorry',
+                        content: 'Your Data is already <b> EXISTS.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-info-sign icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                else {
+                    var url = $("#RedirectToClient").val();
+                    location.href = url;
+                }
+            }
+        });
+
+
+
+    }
+</script>

@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @*@Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")*@
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="~/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="~/css/fontastic.css">
+    <!-- Google fonts - Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <!-- jQuery Circle-->
+    <link rel="stylesheet" href="~/css/grasp_mobile_progress_circle-1.0.0.min.css">
+    <!-- Custom Scrollbar-->
+    <link rel="stylesheet" href="~/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="~/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="~/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <script src="~/vendor/jquery/jquery.js"></script>
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+</head>
+<body style="background-image: url('img/backblue.jpg'); background-repeat: no-repeat; ">
+    @*<div class="navbar navbar-inverse navbar-fixed-top" style="background-color:white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="~/img/cglogo.png" height="100px" width="100px" />
+                </div>
+                <div class="col-md-10">
+                    <span style="font-size:large;font-weight:bold;float:left">SURAJPUR DISTRICT<br /><a style="font-size:small">An Initiative By District Administration</a></span>
+                    
+                </div>
+            </div> 
+        </div>
+    </div>*@
+
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")*@
+        @RenderSection("scripts", required: false)
+</body>
+</html>

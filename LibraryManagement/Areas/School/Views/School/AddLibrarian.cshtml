@@ -1,0 +1,97 @@
+﻿@model LibraryManagement.Models.School
+@using LibraryManagement.Models;
+@using LibraryManagement.DAL;
+@{
+    ViewBag.Title = "AddLibrarian";
+    Layout = "~/Areas/School/Views/Shared/_Layout.cshtml";
+    LibrarienDetail libraiendetail = ViewData["librariendetails"] as LibrarienDetail;
+}
+<section class="forms">
+    @using (Html.BeginForm("AddLibrarian", "School", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddLibrarian", role = "form" }))
+    {
+        <div class="container-fluid">
+            <!-- Page Header-->
+         <br/>
+
+            <div class="col-md-12">
+                @if (libraiendetail != null)
+                {
+                    {
+                        <input type="text" value="@libraiendetail.LibrarienId" id="LibrarienId" name="LibrarienId" style="display:none" class=""/>
+
+                    }
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h4>Edit Librarian</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Librarian name</label>
+                                        <input name="name" id="name" type="text" class="form-control" placeholder="Librarian Name" value="@libraiendetail.Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Contact</label>
+                                        <input name="contact" id="contact" type="text" class="form-control" placeholder="Contact No" value="@libraiendetail.Contact">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <center><input type="submit" style="align-content:center;background-color:green;color:white;align-content:center" value="Submit" class="btn btn-primary"></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h4>Add Librarian</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Librarian name</label>
+                                        <input name="name" id="name" type="text" class="form-control" placeholder="Librarian Name"required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Contact</label>
+                                        <input name="contact" id="contact" type="number" class="form-control" placeholder="Contact No"required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <center><input type="submit" style="align-content:center;background-color:green;color:white;align-content:center" value="Submit" class="btn btn-primary"></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+    }
+</section>
+
+<script>
+
+    var ageInput = document.getElementById("contact")
+
+    ageInput.addEventListener("keydown", function (e) {
+        // prevent: "e", "=", ",", "-", "."
+        if ([69, 187, 188, 189, 190].includes(e.keyCode)) {
+            e.preventDefault();
+        }
+    })
+</script>

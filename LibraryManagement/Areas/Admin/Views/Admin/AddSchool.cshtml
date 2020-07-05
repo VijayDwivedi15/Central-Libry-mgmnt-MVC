@@ -1,0 +1,129 @@
+﻿@model LibraryManagement.Models.School
+@using LibraryManagement.Models;
+
+@using LibraryManagement.DAL;
+@{
+    ViewBag.Title = "AddSchool";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    School viewscl = ViewData["schooldetails"] as School;
+}
+<section class="forms">
+    @using (Html.BeginForm("AddSchool", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddSchool", role = "form" }))
+    {
+        <div class="container-fluid">
+            <!-- Page Header-->
+            <br />
+            <div class="col-md-12">
+                @if (viewscl != null)
+                {
+                    {
+                        <input type="text" value="@viewscl.SchoolId" id="SchoolId" name="SchoolId" style="display:none" class="" />
+
+                    }
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h4>Edit School</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>School name</label>
+                                        <input name="schoolname" id="schoolname" type="text" class="form-control" placeholder="School Name" value="@viewscl.SchoolName">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Contact</label>
+                                        <input name="contact" id="schoolcontact" type="number" class="form-control" placeholder="Contact No" value="@viewscl.Contact">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Address</label>
+                                    <input name="address" type="text" class="form-control" placeholder="School Address" value="@viewscl.Address">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Principle Name</label>
+                                    <input name="PrincipleName" id="PrincipleName" type="text" class="form-control" placeholder="Prinicipal Name" value="@viewscl.PrincipleName ">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Medium</label>
+                                    @Html.DropDownList("MediumId", null, "--- Select School Medium---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "MediumId", placeholder = "School Medium", required = "", })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Block</label>
+                                    @Html.DropDownList("blockId", null, "--- Select Block---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "blockId", placeholder = "Block Name", required = "", onchange = "SelectPhone()" })
+                                </div>
+
+                                <div class="form-group">
+                                    <center><input type="submit" value="Submit" class="btn btn-primary"></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h4>Add School</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>School name</label>
+                                        <input name="schoolname" id="schoolname" type="text" class="form-control" placeholder="School Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  ">
+                                        <label>Contact</label>
+                                        <input name="contact" id="schoolcontact" type="number" maxlength="10" class="form-control" placeholder="Contact No" required>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Address</label>
+                                    <input name="address" type="text" class="form-control" placeholder="School Address" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Principle Name</label>
+                                    <input name="PrincipleName" id="PrincipleName" type="text" class="form-control" placeholder="Prinicipal Name" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Medium</label>
+                                    @Html.DropDownList("MediumId", null, "--- Select School Medium---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "MediumId", placeholder = "School Medium", required = "", onchange = "SelectPhone()" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Block</label>
+                                    @Html.DropDownList("blockId", null, "--- Select Block---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "blockId", placeholder = "Block Name", required = "", onchange = "SelectPhone()" })
+                                </div>
+
+                                <div class="form-group">
+                                    <center><input type="submit" value="Submit" class="btn btn-primary"></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+    }
+</section>
+
+
+<script>
+
+    var ageInput = document.getElementById("schoolcontact")
+
+    ageInput.addEventListener("keydown", function (e) {
+        // prevent: "e", "=", ",", "-", "."
+        if ([69, 187, 188, 189, 190].includes(e.keyCode)) {
+            e.preventDefault();
+        }
+    })
+</script>

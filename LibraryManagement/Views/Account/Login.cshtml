@@ -1,0 +1,88 @@
+﻿@model LibraryManagement.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="page login-page" >
+    <div class="container" >
+        @Html.ValidationSummary(true)
+        <div class="form-outer">
+            <div class="form-inner text-center">
+                <img src="~/img/cglogo.png" height="100px" width="100px" />
+                <div class="logo text-uppercase"><span>@ViewBag.User</span><strong class="text-primary">Log_In</strong></div>
+                <hr />
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+                    @Html.ValidationSummary(true)
+                    <form method="get" class="text-left form-validate">
+                        <div class="form-group-material">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "input-material" })
+                            <label for="login-username" class="label-material">Username</label>
+                            @Html.ValidationMessageFor(m => m.UserName)
+                        </div>
+                        <div class="form-group-material">
+                            @Html.PasswordFor(m => m.Password, new { @class = "input-material" })
+                            <label for="login-password" class="label-material">Password</label>
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" value="Log in" class="btn btn-default" />
+                            <!-- This should be submit button but I replaced it with <a> for demo purposes-->
+                        </div>
+                    </form>
+                }
+
+            </div>
+            <div class="copyrights text-center">
+                <p>Powered by <a href="#" class="external">District Administration Surajpur</a></p>
+                <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="row">
+        <div class="panel">
+            <div class="card">
+                <div class="body">
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.UserName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Log in" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>*@
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

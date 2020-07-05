@@ -1,0 +1,106 @@
+﻿@model LibraryManagement.Models.SubjectViewDetails
+@using LibraryManagement.Models;
+
+@using LibraryManagement.DAL;
+@{
+    ViewBag.Title = "ViewSubjects";
+    Layout = "~/Areas/Library/Views/Shared/_Layout.cshtml";
+    List<SubjectViewDetails> subjectdetails = ViewData["viewbookdetailslist"] as List<SubjectViewDetails>;
+}
+<section class="forms">
+
+    <div class="container-fluid">
+        <br />
+        <div class="col-md-12">
+            <div class="row">
+        <div class="form-group col-md-6">
+            <label class="h4" style="font-size:medium;color:blueviolet">Filter By Class</label>
+            @Html.DropDownList("ClassID", null, "--- Select Class---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "ClassID", placeholder = "Class", required = "", onchange = "SelectClassName()" })
+        </div>
+            <div class="form-group col-md-6">
+                <label class="h4" style="font-size:medium;color:blueviolet">Filter By Subject</label>
+                @Html.DropDownList("SubjectName", null, "--- Select Subject---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "SubjectName", placeholder = "Class", required = "", onchange = "SelectSubjectName()" })
+            </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <h4>Subject List</h4>
+                </div>
+                <div class="card-body">
+                    @if (subjectdetails != null)
+                    {
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="table-bordered">
+                                    <tr>
+                                        <th style="font-weight: bold; color: #803A96; ">
+                                            Subject Name
+                                        </th>
+                                        <th style="font-weight: bold; color: #803A96; ">
+                                            Class Name
+                                        </th>
+                                        <th style="font-weight: bold; color: #803A96; ">
+                                            Action
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in subjectdetails)
+                                    {
+
+                                        <tr>
+                                            <td>
+                                                @item.SubjectName
+                                            </td>
+                                            <td>
+                                                @item.ClassName
+                                            </td>
+
+                                            <td>
+                                                <a style="color:blue;font-size:25px" href="@Url.Action("AddSubjects", "Library", new { ClassID = item.ClassID })" onclick="edit()">
+                                                    <i class="fa fa-edit" style="font-size:x-large;color:CaptionText"></i>
+                                                </a>
+
+
+
+                                            </td>
+
+
+
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+@Html.Hidden("RedirectToHome", Url.Action("ViewSubjects", "Library", new { area = "ClassID" }))
+<script>
+
+    function SelectClassName() {
+        var classID = $('#ClassID').val();
+        var url = $("#RedirectToHome").val() + "?ClassID=" + classID;
+        location.href = url;
+    }
+
+    function SelectSubjectName() {
+        var subjectname = $('#SubjectName').val();
+        var url = $("#RedirectToHome").val() + "?SubjectName=" + subjectname;
+        location.href = url;
+    }
+</script>

@@ -1,0 +1,103 @@
+﻿
+@using LibraryManagement.Models;
+
+@using LibraryManagement.DAL;
+@{
+    ViewBag.Title = "ViewStudent";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<StudentDetail> student = ViewData["student"] as List<StudentDetail>;
+}
+<section class="forms">
+    @using (Html.BeginForm("ViewStudent", "Library", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddStudent", role = "form" }))
+    {
+        <div class="container-fluid">
+
+            <header>
+                <h1 class="h3 display">School List</h1>
+            </header>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h4>View School</h4>
+                    </div>
+                    <div class="card-body">
+                        @if (student != null)
+                        {
+
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead style="background-color:#f6a4a4;" class="table-bordered">
+                                        <tr>
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                Student Name
+                                            </th>
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                Contact
+                                            </th>
+                                          
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                Address
+                                            </th>
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                Action
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="background-color:#c2f7f2">
+                                        @foreach (var item in student)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.Name
+                                                </td>
+                                                <td>
+                                                    @item.Contact
+                                                </td>
+                                               
+                                                <td>
+                                                    @item.Address
+                                                </td>
+                                                <td>
+                                                    <a style="color:blue;font-size:25px" href="@Url.Action("AddStudent","Library", new { StudentId = item.StudentID})" onclick="edit()">
+                                                        <i class="icon-check"></i>
+                                                    </a>
+
+
+
+                                                    <a style="color:blue; font-size:25px" href="#" onclick="check()">
+                                                        <i class="icon-screen">
+                                                        </i>
+                                                    </a>
+
+
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    }
+</section>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<link href="~/css/Confirm.css" rel="stylesheet" />
+<script src="~/Scripts/jquery/Confirm.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+

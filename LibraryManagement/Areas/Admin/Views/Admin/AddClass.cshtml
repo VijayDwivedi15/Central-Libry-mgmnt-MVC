@@ -1,0 +1,74 @@
+﻿@using LibraryManagement.Models
+@{
+    ViewBag.Title = "AddClass";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<ClassMaster> clases = ViewData["clases"] as List<ClassMaster>;
+}
+<section class="forms">
+    @using (Html.BeginForm("AddClass", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddClass", role = "form" }))
+    {
+        <div class="container-fluid">
+            <!-- Page Header-->
+            <header>
+                <h1 class="h3 display">CLASS SECTION</h1>
+            </header>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h4>Add Class</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Class name</label>
+                               
+                                    @if (Model != null)
+                                    {
+                                           <input type="text" id="Stuid" name="stuid" value="@Model.ClassID" style="display:none" />
+                                          <input type="text" name="ClassName" id="name" class="form-control" value="@Model.ClassName" placeholder="Class Name">
+
+                                    }
+                                    else
+                                    {
+                                          <input type="text" id="Stuid" name="stuid" value="0" style="display:none" />
+                                          <input type="text" name="ClassName" id="name" class="form-control" placeholder="Class Name">
+
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <center><input type="submit" value="Submit" class="btn btn-primary"></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>Class ID</th>
+                            <th>Class Name</th>
+                            <th>Action</th>
+                        </tr>
+                        @foreach (var item in clases)
+                        {
+                            <tr>
+                                <td>@item.ClassID</td>
+                                <td>@item.ClassName</td>
+
+                                <td>
+                                    <a href="@Url.Action("AddClass", "Admin", new { area="Admin", ClassID=item.ClassID})">Edit</a>
+                                </td>
+
+                            </tr>
+                        }
+
+
+                    </table>
+                </div>
+            </div> 
+        </div>
+    }
+</section>

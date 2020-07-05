@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link href="~/vendors/iconfonts/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/vendors/css/vendor.bundle.base.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    @*<script src="~/js/chart.js"></script>*@
+
+    <script src="~/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/vendors/js/vendor.bundle.addons.js"></script>
+    <script src="~/js/off-canvas.js"></script>
+    <script src="~/js/misc.js"></script>
+    <script src="~/js/dashboard.js"></script>
+
+</head>
+
+<body class="stretched">
+
+        @RenderBody()
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>
+
+<script>
+    //$(document).ready(function () {
+
+   
+    //    setInterval(function () {
+           
+    //      var popup = document.getElementByClass('popup-box chat-popup').style.display = "none";
+           
+    ////this is used to close a popup
+    ////function close_popup() {
+    ////    for (var iii = 0; iii < popups.length; iii++) {
+          
+    ////            Array.remove(popups, iii);
+               
+    ////            document.getElementById(iii).style.display = "none";
+
+    ////            calculate_popups();
+    ////            updateChatuserstatus(iii);
+    ////            return;
+          
+    ////    }
+
+    ////}
+    //    }, 10000);
+
+    //});
+</script>
+

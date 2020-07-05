@@ -1,0 +1,98 @@
+﻿@model LibraryManagement.Models.School
+@using LibraryManagement.Models;
+@using LibraryManagement.DAL;
+@{
+    ViewBag.Title = "ViewLibrarian";
+    Layout = "~/Areas/School/Views/Shared/_Layout.cshtml";
+    List<LibraryViewDetails> viewlbrn = ViewData["viewlibrarians"] as List<LibraryViewDetails>;
+}
+<section class="forms">
+    @using (Html.BeginForm("AddLibrarian", "School", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddLibrarian", role = "form" }))
+    {
+        <div class="container-fluid">
+
+          <br/>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h4>View Librarian</h4>
+                    </div>
+                    <div class="card-body">
+                        @if (viewlbrn != null)
+                        {
+
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead style="background-color:#f6a4a4;" class="table-bordered">
+                                        <tr>
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                Librarian Name
+                                            </th>
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                Contact
+                                            </th>
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                School Name
+                                            </th>
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                Created On
+                                            </th>
+
+                                            <th style="font-weight: bold; color: #803A96; ">
+                                                Action
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="background-color:#c2f7f2">
+                                        @foreach (var item in viewlbrn)
+                                        {
+
+                                            <tr>
+                                                <td>
+                                                    @item.Name
+                                                </td>
+                                                <td>
+                                                    @item.Contact
+                                                </td>
+                                                <td>
+
+                                                    @item.SchoolName
+                                                </td>
+                                                <td>
+                                                    @item.CreatedOn
+
+                                                </td>
+                                                <td>
+                                                    <a style="color:blue;font-size:25px" href="@Url.Action("AddLibrarian", "School", new { LibrarienId = item.LibrarienId })" onclick="edit()">
+                                                        <i class="icon-check"></i>
+                                                    </a>
+                                                    <a style="color:blue; font-size:25px" href="#" onclick="check()">
+                                                        <i class="icon-screen">
+                                                        </i>
+                                                    </a>
+
+
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    }
+</section>

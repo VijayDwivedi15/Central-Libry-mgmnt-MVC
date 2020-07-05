@@ -1,0 +1,299 @@
+﻿@using LibraryManagement.Models
+@model LibraryManagement.Models.Subject
+@{
+    ViewBag.Title = "Add Subject";
+    Layout = "~/Areas/Library/Views/Shared/_Layout.cshtml";
+    List<Subject> subject = ViewData["SubjectDetailslist"] as List<Subject>;
+    int buttoncount = 0;
+}
+<link href="~/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<div class="content-wrapper">
+
+    <div class="col-12 grid-margin stretch-card">
+      
+        <br />
+  <div class="card">
+            
+            <div class="card-body">
+
+                @if (subject != null)
+                {
+
+                    <span style="font-style:inherit;font-size:large">
+                        Edit Subject
+                    </span>
+                    <hr style="border-color: lightgreen;border-top-style:ridge" />
+                    <div class="form-group row">
+
+
+                        <div class="col-md-4">
+                            <p>
+                                <b>Class Name</b>
+                            </p>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    @Html.DropDownList("ClassID", null, "--- Select Class ---", htmlAttributes: new { @class = "form-control", @id = "ClassID", required = "" })
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table id="FaqsTable" class="table table-bordered nobottommargin">
+                            <tr>
+
+                                <th>Subject Name</th>
+                                <th>Action</th>
+
+                            <tr />
+
+                            @foreach (var item in subject)
+                            {
+                                <tr>
+                                    <td style="display:none">
+
+                                        <input type="text" class="c_ph" id="SubjectID" name="SubjectID[]" value="@item.SubjectID" placeholder="SubjectID" style="width:150px;display:none" />
+
+
+                                    </td>
+                                    <td>
+
+                                        <input type="text" class="form-control" id="SubjectName" name="SubjectName[]" value="@item.SubjectName" placeholder="Subject Name" style="width:200px" />
+
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:void(0);" id="addCF"><i class="fa fa-plus" style="font-size:xx-large"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <span>Add Subject</span>
+
+                    <hr style="border-color: lightgreen" />
+                    <div class="form-group row">
+
+                        <div class="col-md-4">
+                            <p>
+                                <b>Class Name</b>
+                            </p>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    @Html.DropDownList("ClassID", null, "--- Select Class ---", htmlAttributes: new { @class = "form-control", @id = "ClassID", required = "" })
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table id="FaqsTable" class="table table-bordered nobottommargin">
+                            <tr>
+
+                                <th>Subject Name</th>
+                                <th>Action</th>
+
+                            <tr />
+
+                            <tr>
+                                <td style="display:none">
+
+                                    <input type="text" class="c_ph" id="SubjectID" name="SubjectID[]" value="0" placeholder="SubjectID" style="width:150px;display:none" />
+
+
+                                </td>
+                                <td>
+
+                                    <input type="text" class="form-control" id="SubjectName" name="SubjectName[]" value="" placeholder="Subject Name" style="width:200px"required />
+
+                                </td>
+
+                                <td>
+                                    <a href="javascript:void(0);" id="addCF"><i class="fa fa-plus" style="font-size:xx-large"></i></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+                <br /><br />
+
+                <div class="col-md-12">
+
+                <center><input type="button" style="align-content:center;background-color:green;color:white;align-content:center" class="btn btn-gradient-primary mb-2" onclick="AddSubjectName()" value="Submit" /></center>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script src="~/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<link href="~/css/Confirm.css" rel="stylesheet" />
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        var iCnt = 0;
+        $('#FaqsTable').on('click', '#addCF', function () {
+            if (iCnt <= 100) {
+
+                iCnt = iCnt + 1;
+                $("#FaqsTable").append('<tr>' +
+
+                    '<td style="display:none"><input type="text" class="c_ph" id="SubjectID" name="SubjectID[]" value="0" placeholder="SubjectName" style="width:150px" /></td>' +
+                    '<td><input type="text" class="form-control" id="SubjectName" name="SubjectName[]" value="" placeholder="Subject Name" style="width:200px"required /></td>' +
+        '<td><a href="javascript:void(0);" id="remCF"><i class="fa fa-close" style="font-size:xx-large"></i></a></td> '
+        + '</tr>');
+            }
+        });
+
+        $("#FaqsTable").on('click', '#remCF', function () {
+            var flag = $(this).closest('tr').find(".Flag").val();
+            if (flag == "I") {
+                $(this).closest('tr').remove();
+            }
+            else (flag == "U")
+            {
+                $(this).closest("tr").hide();
+                $(this).closest('tr').find(".Flag").val("D");
+            }
+        });
+
+        var tech = $("#SaveStatus").val();
+
+    });
+
+    //$('#StateID').change(function () {
+
+    $("#task").validate({
+        submitHandler: function (form) {
+        }
+    });
+</script>
+
+<script>
+
+
+    function AddSubjectName() {
+        var sid = new Array;
+        var sname = new Array;
+
+
+        $.each($("input[name='SubjectID[]']"), function () {
+            if ($(this).val() != "") {
+                sid.push($(this).val());
+            }
+        });
+
+        alert(sid);
+
+        $.each($("input[name='SubjectName[]']"), function () {
+            if ($(this).val() != "") {
+                sname.push($(this).val());
+            }
+        });
+
+        alert(sname);
+
+        $.ajax({
+            type: "post",
+            url: "/Library/Library/AddSubject",
+            traditional: true,
+            data: {
+
+                SubjectsID: sid,
+                SubjectsName: sname,
+                ClassID: $('#ClassID').val()
+
+
+
+            },
+            datatype: "json",
+
+            success: function (data) {
+
+                $('.form-process').fadeOut();
+                if (data == "Succeeded") {
+                    $.confirm({
+                        'title': 'Cheers',
+                        'message': 'Your Data has been saved <b> SUCCESSFULLY.</b>',
+                        'buttons': {
+                            'Ok': {
+                                'class': 'blue',
+                                'action': function () {
+                                    var url = $("#RedirectToTask").val();
+                                    location.href = url;
+                                }
+                            }
+                        }
+                    });
+                    $.alert({
+                        title: 'Cheers',
+                        content: 'Your Data has been saved <b> SUCCESSFULLY.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-thumbs-up icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                if (data == "Unsucceeded") {
+                    $.alert({
+                        title: 'Sorry',
+                        content: 'Something went <b>wrong.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-thumbs-down icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                if (data == "Exists") {
+                    $.alert({
+                        title: 'Sorry',
+                        content: 'Your Data is already <b> EXISTS.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-info-sign icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                else {
+                    var url = $("#RedirectToClient").val();
+                    location.href = url;
+                }
+            }
+        });
+
+
+
+    }
+
+
+
+</script>

@@ -1,0 +1,366 @@
+﻿@using LibraryManagement.Models
+@model LibraryManagement.Models.IssueBook
+@{
+    ViewBag.Title = "Issue Books";
+    Layout = "~/Areas/Library/Views/Shared/_Layout.cshtml";
+    List<IssueBookDetailView> issuebooklist = ViewData["issuebookdetails"] as List<IssueBookDetailView>;
+
+}
+<link href="~/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<div class="content-wrapper">
+
+    <div class="col-12 grid-margin stretch-card">
+
+        <br /><div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h4>Issue Book</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+
+
+                    <div class="col-md-6">
+                        <div class="form-group  ">
+                            <label>Student ID</label>
+                            <input name="studentid" id="studentid" type="text" class="form-control" placeholder="Student ID" onblur="SelectStudent()" required>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-6">
+                        <label>Class</label>
+                        @Html.DropDownList("ClassID", null, "--- Select Class---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "ClassID", placeholder = "Class", required = "", onchange = "SelectClass()" })
+                    </div>
+
+                    <div class="card-body" id="namecol" style="display:none">
+                        <h4>Student Detail</h4>
+                        <hr />
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" id="namecol">
+                                        <label>Name  </label>
+                                        <input name="name" id="name" type="text" class="form-control" placeholder="Student name" value="" required>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Father Name </label>
+                                        <input name="fname" id="fname" type="text" class="form-control" placeholder="Father name" value="" required>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Birth </label>
+                                        <input name="dob" id="dob" type="text" class="form-control" placeholder="Date Of Birth" value="" required>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Student No </label>
+                                        <input name="sno" id="sno" type="text" class="form-control" placeholder="Student No" value="" required>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        @*<label>Book Name</label>
+
+                            @Html.DropDownList("BookID", null, "--- Select Book---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "BookID", placeholder = "Class", required = "" })*@
+
+                        <div class="table-responsive">
+                            <table id="FaqsTable" class="table table-bordered nobottommargin">
+                                <tr>
+
+                                    <th>Book Name</th>
+                                    <th>Action</th>
+
+                                <tr />
+
+                                <tr>
+                                    <td>
+
+                                        @Html.DropDownList("BookID", null, "--- Select Book---", htmlAttributes: new { @class = "form-control mb-2 mr-sm-2", @id = "BookID", Name = "BookID[]", placeholder = "Class", required = "" })
+
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:void(0);" id="addCF"><i class="fa fa-plus" style="font-size:xx-large"></i></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="col">
+                            <div class="form-group  ">
+                                <label>Issue Date</label>
+                                <input name="issuedate" id="issuedate" type="date" class="form-control" placeholder="Issue Date" required>
+                                <br />
+                                <div class="form-group  ">
+                                    <label>Return Date</label>
+                                    <input name="returndate" id="returndate" type="date" class="form-control" placeholder="Return Date" required>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    @*<div class="col-md-6">
+                            <div class="form-group  ">
+                                <label>Edition</label>
+                                <input name="edition" id="edition" type="text" class="form-control" placeholder="Edition" value="@bookdetails.Edition">
+
+                            </div>
+                        </div>
+                    *@
+
+                    <br />
+
+                    <div class="col-md-12">
+                        <center><input type="submit" onclick="AddIssueBooks()" value="Submit" class="btn btn-primary"></center>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+           
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<script src="~/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<link href="~/css/Confirm.css" rel="stylesheet" />
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        var iCnt = 0;
+        $('#FaqsTable').on('click', '#addCF', function () {
+            if (iCnt <= 100) {
+
+                iCnt = iCnt + 1;
+
+                $.ajax({
+                    type: "post",
+                    url: "/Library/Library/GetBookNameDetail",
+                    data: {
+                        ClassID: $('#ClassID').val()
+                    },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        var member = "<select class='form-control' id='BookID' name='BookID[]'>";
+                        member = member + '<option value="">--- Select Book Name---</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            member = member + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        member = member + '</select>';
+                        $('#' + iCnt).html(member);
+                    }
+                });
+                $("#FaqsTable").append('<tr>' +
+                      '<td><div id=' + iCnt + '></div></td>' +
+
+        '<td><a href="javascript:void(0);" id="remCF"><i class="fa fa-close" style="font-size:xx-large"></i></a></td> '
+        + '</tr>');
+            }
+        });
+
+        $("#FaqsTable").on('click', '#remCF', function () {
+            var flag = $(this).closest('tr').find(".Flag").val();
+            if (flag == "I") {
+                $(this).closest('tr').remove();
+            }
+            else (flag == "U")
+            {
+                $(this).closest("tr").hide();
+                $(this).closest('tr').find(".Flag").val("D");
+            }
+        });
+
+        var tech = $("#SaveStatus").val();
+
+    });
+
+    //$('#StateID').change(function () {
+
+    $("#task").validate({
+        submitHandler: function (form) {
+        }
+    });
+</script>
+
+
+<script>
+
+    function SelectClass() {
+
+
+        $.ajax({
+            type: "post",
+            url: "/Library/Library/GetBookNameDetail",
+            data: {
+                ClassID: $('#ClassID').val()
+            },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var member = "<select class='form-control' id='BookID' name='BookID[]'>";
+                member = member + '<option value="">--- Select Book Name---</option>';
+                for (var i = 0; i < data.length; i++) {
+                    member = member + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                member = member + '</select>';
+                $('#BookID').html(member);
+            }
+        });
+
+
+    }
+
+    function SelectStudent() {
+
+
+        $.ajax({
+            type: "post",
+            url: "/Library/Library/GetStudentDetailView",
+            data: {
+                StudentID: $('#studentid').val()
+            },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#namecol').show()
+                document.getElementById('sno').value = data.StudentNo.toString()
+                document.getElementById('name').value = data.Name.toString()
+                document.getElementById('fname').value = data.FatherName.toString()
+                document.getElementById('dob').value = data.DOB.toString()
+            }
+
+
+
+        });
+
+    }
+
+    function AddIssueBooks() {
+        var bid = new Array;
+
+        $.each($("select[name='BookID[]']"), function () {
+            if ($(this).val() != "") {
+                bid.push($(this).val());
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/Library/Library/IssueBooks",
+            traditional: true,
+            data: {
+
+                BooksID: bid,
+                StudentID: $('#studentid').val(),
+                ClassID: $('#ClassID').val(),
+                IssueDate: $('#issuedate').val(),
+                ReturnDate: $('#returndate').val()
+
+
+            },
+            datatype: "json",
+
+            success: function (data) {
+
+                $('.form-process').fadeOut();
+                if (data == "Succeeded") {
+                    $.confirm({
+                        'title': 'Cheers',
+                        'message': 'Your Data has been saved <b> SUCCESSFULLY.</b>',
+                        'buttons': {
+                            'Ok': {
+                                'class': 'blue',
+                                'action': function () {
+                                    var url = $("#RedirectToTask").val();
+                                    location.href = url;
+                                }
+                            }
+                        }
+                    });
+                    $.alert({
+                        title: 'Cheers',
+                        content: 'Your Data has been saved <b> SUCCESSFULLY.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-thumbs-up icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                if (data == "Unsucceeded") {
+                    $.alert({
+                        title: 'Sorry',
+                        content: 'Something went <b>wrong.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-thumbs-down icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                if (data == "Exists") {
+                    $.alert({
+                        title: 'Sorry',
+                        content: 'Your Data is already <b> EXISTS.</b>',
+                        confirmButton: 'OK',
+                        confirmButtonClass: 'btn-info',
+                        icon: 'icon-info-sign icon-2x ',
+                        animation: 'zoom',
+                        confirm: function () {
+                            var url = $("#RedirectToClient").val();
+                            location.href = url;
+                        }
+                    });
+                }
+                else {
+                    var url = $("#RedirectToClient").val();
+                    location.href = url;
+                }
+            }
+        });
+
+
+
+    }
+</script>

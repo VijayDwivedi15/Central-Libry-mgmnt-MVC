@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="col-md-12">
+    <br />
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="~/img/cglogo.png" height="100px" width="100px" />
+                </div>
+                <div class="col-md-8">
+                    <span style="font-size:large;font-weight:bold;float:left">SURAJPUR DISTRICT<br /><a style="font-size:small">An Initiative By District Administration</a></span>
+                </div>
+            </div>
+            <hr />
+            <h2 style=" font-weight:bold"><span style="color:#b09797">WELCOME TO</span> <br /> <span>LIBRARY MANAGEMENT SYSTEM</span></h2>
+            @*<img src="~/img/bookback1.png" style="height:150px;width:150px;float:right" />*@
+            <br />
+            <div class="row">
+
+                <div class="col-md-3 " style="background-color: #acddfa; border-radius: 10px">
+
+                    <center>
+                        <a href="#" onclick="LogIn('Admin')">
+                            <img src="~/img/User.png" height="150px" width="150px" />
+                        </a>
+                    </center>
+                    <h4 style="text-align: center; font-weight: bold">Admin</h4>
+
+                </div>
+                <div class="col-md-1"></div>
+
+                <div class="col-md-3" style="background-color:#acddfa;border-radius:10px">
+                    <center>
+                        <a href="#" onclick="LogIn('School')">
+                            <img src="~/img/school.png" style=" height: 150px; width: 150px;" />
+                        </a>
+                    </center>
+                    <h4 style="text-align:center;font-weight:bold">School</h4>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-3" style="background-color:#acddfa; border-radius: 10px">
+                    <center>
+                        <a href="#" onclick="LogIn('Librarian')">
+                            <img src="~/img/libearien.png" style="height: 150px; width: 150px; " />
+                        </a>
+                    </center>
+                    <h4 style="text-align: center; font-weight: bold">Librarian</h4>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <marquee>Online Library Management System</marquee>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <span>Copyright- District Administration Surajpur </span>
+                </div>
+                <img src="~/img/banner.png" height="200px" width="100%" class="col-md-8" />
+            </div>
+
+        </div>
+    </div>
+</div>
+@Html.Hidden("Log", Url.Action("LogIn", "Account"))
+<script>
+    function LogIn(user) {
+        alert();
+        var url = $('#Log').val() + "?User=" + user;
+        window.location = url;
+    }
+</script>
+
+
+
